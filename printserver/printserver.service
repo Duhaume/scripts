@@ -1,0 +1,21 @@
+[Unit]
+Description=Serveur d'impression Selphy (upload + lp)
+After=network-online.target cups.service
+Wants=network-online.target
+Requires=cups.service
+
+[Service]
+Type=simple
+# À adapter : utilisateur et dossier où se trouve printserver.py
+User=raspberry
+WorkingDirectory=/home/raspberry/printserver
+ExecStart=/usr/bin/python3 /home/raspberry/printserver/printserver.py
+Environment=PRINTER=Selphy
+Environment=PORT=3333
+Environment=LP_OPTIONS=media=Postcard fit-to-page
+Environment=PYTHONUNBUFFERED=1
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
